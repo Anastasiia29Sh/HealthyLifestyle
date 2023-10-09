@@ -1,57 +1,26 @@
-# essentials
+# Healthy Lifestyle
 
 ## Project setup
 
 ```
-# yarn
-yarn
-
-# npm
 npm install
-
-# pnpm
-pnpm install
 ```
 
 ### Compiles and hot-reloads for development
 
 ```
-# yarn
-yarn dev
-
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
 ```
 
 ### Compiles and minifies for production
 
 ```
-# yarn
-yarn build
-
-# npm
 npm run build
-
-# pnpm
-pnpm build
 ```
 
-### Lints and fixes files
+### Start JSON Server
 
 ```
-# yarn
-yarn lint
-
-# npm
-npm run lint
-
-# pnpm
-pnpm lint
+npm i -g json-server
+npm run json-server
 ```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).
