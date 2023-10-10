@@ -25,7 +25,7 @@ export const useLisfFoodsStore = defineStore('listFoods', () => {
 
 	// Получить весь список продуктов из бд
 	async function fetchFoods() {
-		axios.get("https://anastasiia29sh.github.io/api_food/food.json").then((res) => {
+		axios.get("http://localhost:3000/foods").then((res) => {
 			let i = 0;
 			foodsBD.value = res.data.foods.map((item) => {
 				item.calories = parseFloat(item.calories.replace(' кКал', ''));
