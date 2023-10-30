@@ -12,7 +12,7 @@
       />
     </v-col>
   </v-row>
-  <p class="mess">{{ mess }}</p>
+  <p class="message">{{ message }}</p>
   <Pie :options="chartOptions" :data="piaChartData" class="pia-chart mt-2" />
 </template>
 
@@ -48,7 +48,7 @@ getAllFoods();
 
 const emit = defineEmits(["totalCaloriesDay", "updateSelectedDate"]);
 
-const mess = ref("");
+const message = ref("");
 
 let currentDate = new Date();
 currentDate =
@@ -104,17 +104,17 @@ function checkDate(selectedDate) {
   if (selectedDate !== "") {
     let year = selectedDate.split("-")[0];
     if (year >= 2000 && year <= 2050) {
-      mess.value = "";
+      message.value = "";
       return true;
     }
   } else {
-    mess.value = "Введите корректную дату";
+    message.value = "Введите корректную дату";
     return false;
   }
 }
 
 function formatDate(date) {
-  let day = date.split("-")[2].replace(/0+/g, "");
+  let day = date.split("-")[2].replace(/^0+/g, "");
   let month = date.split("-")[1];
   let year = date.split("-")[0];
   return new Date(year + ", " + month + ", " + day);
@@ -132,7 +132,7 @@ function formatDate(date) {
   height: 72% !important;
   margin: 0 auto;
 }
-.mess {
-  @include settings.mess();
+.message {
+  @include settings.message();
 }
 </style>

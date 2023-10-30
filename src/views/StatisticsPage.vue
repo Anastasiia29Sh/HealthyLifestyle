@@ -10,11 +10,7 @@
       <v-window-item value="personalization" class="personalization mt-8">
         <!-- Статистика дня -->
         <DayStatistics
-          @totalCaloriesDay="
-            (res) => {
-              totalCaloriesDay = res;
-            }
-          "
+          @totalCaloriesDay="updateTotalCaloriesDay"
           @updateSelectedDate="reset()"
         />
         <v-btn
@@ -33,16 +29,8 @@
           <!-- Калькулятор калорий -->
           <CalculatorCalorie
             :totalCaloriesDay="totalCaloriesDay"
-            @normCalorie="
-              (res) => {
-                normCalorie = res;
-              }
-            "
-            @comment="
-              (res) => {
-                comment = res;
-              }
-            "
+            @normCalorie="updateNormCalorie"
+            @comment="updateComment"
           />
           <p :class="['result', normCalorie === null ? '' : 'block-show']">
             Суточная норма калорий: {{ normCalorie }} Ккал
@@ -62,13 +50,11 @@
 import { ref } from "vue";
 import { useLisfFoodsStore } from "@/store/listFoods";
 
-// Компоненты
 import DayStatistics from "@/components/DayStatistics.vue";
 import GeneralStatistics from "@/components/GeneralStatistics.vue";
 import CalculatorCalorie from "@/components/CalculatorCalorie.vue";
 
-const listFoodStore = useLisfFoodsStore();
-const { getAllFoods } = listFoodStore;
+const { getAllFoods } = useLisfFoodsStore();
 getAllFoods();
 
 const tab = ref(null);
@@ -77,6 +63,10 @@ const totalCaloriesDay = ref();
 const comment = ref("");
 const normCalorie = ref(null);
 const openCalculatorСalorie = ref(false);
+
+const updateTotalCaloriesDay = (res) => (totalCaloriesDay.value = res);
+const updateNormCalorie = (res) => (normCalorie.value = res);
+const updateComment = (res) => (comment.value = res);
 
 function reset() {
   openCalculatorСalorie.value = false;

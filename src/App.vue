@@ -23,9 +23,7 @@
 
 <script setup>
 import { useLisfFoodsStore } from "@/store/listFoods";
-
-const listFoodStore = useLisfFoodsStore();
-const { fetchFoods } = listFoodStore;
+const { fetchFoods } = useLisfFoodsStore();
 fetchFoods();
 </script>
 
@@ -34,15 +32,10 @@ fetchFoods();
 .app {
   background-color: settings.$mainColorBg;
   margin: 0 auto;
+  max-width: 600px;
   .main-nav-footer {
     background-color: settings.$mainColorBg;
     color: #fff;
-  }
-  .main-content::-webkit-scrollbar {
-    display: none;
-  }
-  @media (min-width: 600px) {
-    width: 600px !important;
   }
 }
 </style>

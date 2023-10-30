@@ -4,7 +4,7 @@
       <v-icon color="#33691E">mdi-arrow-left</v-icon>
     </router-link>
     <p class="ps-6">
-      Добавить продукты в <b>{{ SectionDate }}</b>
+      Добавить продукты в <b>{{ sectionDate }}</b>
     </p>
     <!-- Фильтрация -->
     <v-btn
@@ -28,20 +28,16 @@
       :sort-by="[{ key: 'calories', order: 'asc' }]"
     >
       <!-- Панель добавления -->
-      <template v-slot:top>
+      <template #top>
         <v-dialog v-model="openPalenAdd" max-width="500px">
           <AddEditFoodSectionPanel
             :titlePanel="titlePanel"
             :action="action"
-            @openPalenAddEdit="
-              (res) => {
-                openPalenAdd = res;
-              }
-            "
+            @openPalenAddEdit="updateOpenPalenAdd"
           />
         </v-dialog>
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <v-btn
           variant="text"
           @click="addFood(item.raw)"
@@ -61,7 +57,7 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useActionsFoodStore } from "@/store/actionsFood";
 import { storeToRefs } from "pinia";
-// Компоненты
+
 import FilterFood from "@/components/FilterFood2.vue";
 import AddEditFoodSectionPanel from "@/components/AddEditFoodSectionPanel.vue";
 
@@ -69,9 +65,9 @@ const route = useRoute();
 const actionsFoodStore = useActionsFoodStore();
 
 const allFoods = ref([]);
-const mess = ref("");
+const message = ref("");
 
-let SectionDate =
+let sectionDate =
   (route.params.section === "breakfast"
     ? "Завтрак"
     : route.params.section === "lunch"
@@ -81,24 +77,13 @@ let SectionDate =
     : "") +
   ", " +
   route.params.date;
-let headers = [
-  {
-    align: "start",
-    key: "name",
-    sortable: false,
-    title: "Продукты/Блюда",
-  },
-  { key: "calories", title: "Калории (Ккал)" },
-  { key: "proteins", title: "Белки (г)" },
-  { key: "fats", title: "Жиры (г)" },
-  { key: "carbs", title: "Углеводы (г)" },
-  { key: "actions", title: "" },
-];
+let headers = headersTableFoodSelection;
 
 // Добавление
 const openPalenAdd = ref(false);
+const updateOpenPalenAdd = (res) => (openPalenAdd.value = res);
 let action = "add";
-const titlePanel = ref(SectionDate + " Добавить ");
+const titlePanel = ref(sectionDate + " Добавить ");
 const { infaAddedFoodSectionDate, addedFoodSectionDate } =
   storeToRefs(actionsFoodStore);
 function addFood(item) {
@@ -129,10 +114,10 @@ function resFilter(res) {
   allFoods.value = res;
   if (allFoods.value.length === 0) {
     showFilter.value = true;
-    mess.value = "По Вашему запросу данных не найдено";
+    message.value = "По Вашему запросу данных не найдено";
   } else {
     showFilter.value = false;
-    mess.value = "";
+    message.value = "";
   }
 }
 </script>

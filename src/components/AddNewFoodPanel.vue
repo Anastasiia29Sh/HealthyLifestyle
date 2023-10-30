@@ -53,7 +53,7 @@
         <v-btn @click="ok()" class="btn-ok"> Ок </v-btn>
         <v-btn variant="text" @click="close()" class="ml-2"> Отмена </v-btn>
       </div>
-      <p class="mess mt-2">{{ mess }}</p>
+      <p class="message mt-2">{{ message }}</p>
     </v-container>
   </v-card>
 </template>
@@ -68,7 +68,7 @@ const actionsFoodStore = useActionsFoodStore();
 const { infaAddedNewFood } = storeToRefs(actionsFoodStore);
 const { addNewFood } = actionsFoodStore;
 
-let mess = ref("");
+let message = ref("");
 
 const emit = defineEmits(["openPalenAdd", "rewriteListFood"]);
 
@@ -83,11 +83,11 @@ function ok() {
       fats: 0,
       carbs: 0,
     };
-    mess.value = "";
+    message.value = "";
     emit("rewriteListFood");
     close();
   } else {
-    mess.value = "Введите все данные";
+    message.value = "Введите все данные";
   }
 }
 function close() {
@@ -101,7 +101,7 @@ function close() {
 .btn-ok {
   @include settings.btnStyle();
 }
-.mess {
-  @include settings.mess();
+.message {
+  @include settings.message();
 }
 </style>

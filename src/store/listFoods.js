@@ -27,7 +27,7 @@ export const useLisfFoodsStore = defineStore('listFoods', () => {
 	async function fetchFoods() {
 		axios.get("http://localhost:3000/foods").then((res) => {
 			let i = 0;
-			foodsBD.value = res.data.foods.map((item) => {
+			foodsBD.value = res.data.map((item) => {
 				item.calories = parseFloat(item.calories.replace(' кКал', ''));
 				item.proteins = parseFloat(item.proteins.replace(' г', ''));
 				item.fats = parseFloat(item.fats.replace(' г', ''));

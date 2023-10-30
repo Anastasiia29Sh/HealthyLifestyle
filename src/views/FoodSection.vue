@@ -4,7 +4,7 @@
       <v-icon color="#33691E">mdi-arrow-left</v-icon>
     </router-link>
     <p class="ps-6">
-      <b>{{ SectionDate }}</b> Съеденные продукты
+      <b>{{ sectionDate }}</b> Съеденные продукты
     </p>
     <!-- Таблица данных -->
     <v-data-table
@@ -12,22 +12,18 @@
       :items="listFoodSpecificSectionDate"
       :class="['foods-table', 'mt-8', showTable ? '' : 'block-none']"
     >
-      <template v-slot:item.name="{ item }">
+      <template #item.name="{ item }">
         <p class="name-food" @click="getDescriptionFood(item.raw.id)">
           {{ item.columns.name }}
         </p>
       </template>
-      <template v-slot:top>
+      <template #top>
         <!-- Панель редактирования -->
         <v-dialog v-model="openPalenEdit" max-width="500px">
           <AddEditFoodSectionPanel
             :titlePanel="titlePanel"
             :action="action"
-            @openPalenAddEdit="
-              (res) => {
-                openPalenEdit = res;
-              }
-            "
+            @openPalenAddEdit="updateOpenPalenEdit"
             @rewriteListFood="getListFood()"
           />
         </v-dialog>
@@ -50,7 +46,7 @@
           </v-card>
         </v-dialog>
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <v-btn
           variant="text"
           @click="editFood(item.raw)"
@@ -106,7 +102,7 @@ import { useRoute } from "vue-router";
 import { useLisfFoodsStore } from "@/store/listFoods";
 import { useActionsFoodStore } from "@/store/actionsFood";
 import { storeToRefs } from "pinia";
-// Компоненты
+
 import AddEditFoodSectionPanel from "@/components/AddEditFoodSectionPanel.vue";
 
 const route = useRoute();
@@ -133,7 +129,7 @@ const showTable = ref(
   listFoodSpecificSectionDate.value.length > 0 ? true : false
 );
 
-let SectionDate =
+let sectionDate =
   (route.params.section === "breakfast"
     ? "Завтрак"
     : route.params.section === "lunch"
@@ -144,17 +140,7 @@ let SectionDate =
   ", " +
   route.params.date;
 
-let headers = [
-  {
-    align: "start",
-    key: "name",
-    sortable: false,
-    title: "Продукты/Блюда",
-  },
-  { key: "weight", title: "Масса (г)" },
-  { key: "calories", title: "Калории (Ккал)" },
-  { key: "actions", title: "" },
-];
+let headers = headersTableFoodSection;
 
 // Описание продуктов
 const openDescription = ref(false);
@@ -177,6 +163,7 @@ function getDescriptionFood(id) {
 
 // Редактирование
 const openPalenEdit = ref(false);
+let updateOpenPalenEdit = (res) => (openPalenEdit.value = res);
 let action = "edit";
 let titlePanel = "Редактировать";
 function editFood(item) {

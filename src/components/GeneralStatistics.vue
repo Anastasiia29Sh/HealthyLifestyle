@@ -27,7 +27,7 @@
         />
       </v-col>
     </v-row>
-    <p class="mess">{{ mess }}</p>
+    <p class="message">{{ message }}</p>
   </div>
   <div :class="['chart-data', 'mt-4', openChartData ? 'block-show' : '']">
     <!-- Общее кол-во кбжу за введенный диапазон дат -->
@@ -106,22 +106,12 @@ const chartOptions = ref({
   responsive: true,
 });
 
-const mess = ref("");
+const message = ref("");
 
 const listTotalCPFCFoodStatistics = ref();
 
-const namechartData = ref([
-  { ru: "Калории", en: "calories" },
-  { ru: "Белки", en: "proteins" },
-  { ru: "Жиры", en: "fats" },
-  { ru: "Углеводы", en: "carbs" },
-]);
-const nameCriteriaChartData = ref([
-  { title: "По дням", value: "day" },
-  { title: "По неделям", value: "week" },
-  { title: "По месяцам", value: "month" },
-  { title: "По годам", value: "year" },
-]);
+const namechartData = ref(namechartDataOdj);
+const nameCriteriaChartData = ref(nameCriteriaChartDataObj);
 const cbfc = ref("calories");
 const criteriaChartData = ref("day");
 
@@ -145,11 +135,11 @@ function checkDate(selectedDate) {
   if (selectedDate !== "") {
     let year = selectedDate.split("-")[0];
     if (year >= 2000 && year <= 2050) {
-      mess.value = "";
+      message.value = "";
       return true;
     }
   } else {
-    mess.value = "Введите корректную дату";
+    message.value = "Введите корректную дату";
     return false;
   }
 }
@@ -179,14 +169,14 @@ function getStatistics() {
           allTotalCPFC.value.carbs += element.carbs;
         });
         getChartDate();
-        mess.value = "";
+        message.value = "";
         openChartData.value = true;
       } else {
-        mess.value = "Нет данных";
+        message.value = "Нет данных";
         openChartData.value = false;
       }
     } else {
-      mess.value = "Введите корректную дату";
+      message.value = "Введите корректную дату";
       openChartData.value = false;
     }
   } else openChartData.value = false;
@@ -325,7 +315,7 @@ function getYearDate(startDate) {
 }
 
 function formatDate(date) {
-  let day = date.split("-")[2].replace(/0+/g, "");
+  let day = date.split("-")[2].replace(/^0+/g, "");
   let month = date.split("-")[1];
   let year = date.split("-")[0];
   return new Date(year + ", " + month + ", " + day);
@@ -358,7 +348,7 @@ function formatDate2(date) {
 .block-show {
   display: block;
 }
-.mess {
-  @include settings.mess();
+.message {
+  @include settings.message();
 }
 </style>

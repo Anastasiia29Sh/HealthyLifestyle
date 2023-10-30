@@ -43,11 +43,7 @@
     <!-- Панель добавления нового продукта -->
     <v-dialog v-model="openPalenAdd" max-width="500px">
       <AddNewFoodPanel
-        @openPalenAdd="
-          (res) => {
-            openPalenAdd = res;
-          }
-        "
+        @openPalenAdd="updateOpenPalenAdd"
         @rewriteListFood="getListFood()"
       />
     </v-dialog>
@@ -59,7 +55,7 @@ import { ref } from "vue";
 import { useLisfFoodsStore } from "@/store/listFoods";
 import { useActionsFoodStore } from "@/store/actionsFood";
 import { storeToRefs } from "pinia";
-// Компоненты
+
 import FilterFood from "@/components/FilterFood.vue";
 import AddNewFoodPanel from "@/components/AddNewFoodPanel.vue";
 
@@ -77,21 +73,11 @@ function getListFood() {
 }
 getListFood();
 
-let headers = [
-  {
-    align: "start",
-    key: "name",
-    sortable: false,
-    title: "Продукты/Блюда",
-  },
-  { key: "calories", title: "Калории (Ккал)" },
-  { key: "proteins", title: "Белки (г)" },
-  { key: "fats", title: "Жиры (г)" },
-  { key: "carbs", title: "Углеводы (г)" },
-];
+let headers = headersTableFoodDirectory;
 
 // Добавление нового продукта
 const openPalenAdd = ref(false);
+const updateOpenPalenAdd = (res) => (openPalenAdd.value = res);
 const { infaAddedNewFood } = storeToRefs(actionsFoodStore);
 function addNewFood() {
   infaAddedNewFood.value.id = allFoods.value.length;

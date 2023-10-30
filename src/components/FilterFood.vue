@@ -106,7 +106,7 @@ function searchMaxValue(parametr) {
 .btn-ok {
   @include settings.btnStyle();
 }
-.mess {
-  @include settings.mess();
+.message {
+  @include settings.message();
 }
 </style>

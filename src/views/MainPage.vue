@@ -3,13 +3,13 @@
     <v-app-bar-title class="main-text">ЗОЖ-Учёт</v-app-bar-title>
   </v-app-bar>
   <v-dialog v-model="openCalendar" width="auto">
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-container>
         <!-- выбранная дата -->
         <div class="date-selection" v-bind="props">
           <p class="text-date">
             <v-icon>mdi-calendar</v-icon>
-            {{ formatDate() }}
+            {{ formatDate }}
           </p>
         </div>
         <!-- 3 раздела: завтрак, обед и ужин  -->
@@ -83,10 +83,10 @@
     <div>
       <v-date-picker
         v-model="date"
-        title=""
+        title="Календарь"
         @update:modelValue="openCalendar = false"
         hide-actions="true"
-        keyboard-icon=""
+        keyboard-icon
         color="#33691E"
         theme="dark"
         class="calendar"
@@ -97,35 +97,31 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
-let d = new Date();
+let currentDate = ref(new Date());
 if (route.params.date !== "") {
-  let mas_d = route.params.date.split(".");
-  d = new Date(mas_d[2] + ", " + mas_d[1] + ", " + mas_d[0]);
+  let masCurrentDate = route.params.date.split(".");
+  currentDate.value = new Date(
+    masCurrentDate[2] + ", " + masCurrentDate[1] + ", " + masCurrentDate[0]
+  );
 }
-const date = ref(d);
+const date = ref(currentDate);
 const openCalendar = ref(false);
 const selectedDate = ref("");
 
-let days = [
-  "Воскресенье",
-  "Понедельник",
-  "Вторник",
-  "Среда",
-  "Четверг",
-  "Пятница",
-  "Суббота",
-];
-
-function formatDate() {
+const formatDate = computed(() => {
   let day = date.value.getDate();
   let month = ("0" + (date.value.getMonth() + 1)).slice(-2);
   let year = date.value.getFullYear();
-  selectedDate.value = new Array(day, month, year).join(".");
+  updateSelectedDate(day, month, year);
   let n = date.value.getDay();
   return days[n] + ", " + selectedDate.value;
+});
+
+function updateSelectedDate(day, month, year) {
+  selectedDate.value = new Array(day, month, year).join(".");
 }
 </script>
 

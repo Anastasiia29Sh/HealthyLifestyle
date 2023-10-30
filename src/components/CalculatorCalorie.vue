@@ -30,19 +30,13 @@
     variant="underlined"
   ></v-select>
   <v-btn @click="getNormCalorie()" class="calculate">Рассчитать</v-btn>
-  <p class="mess mt-2">{{ mess }}</p>
+  <p class="message mt-2">{{ message }}</p>
 </template>
 
 <script setup>
 import { ref } from "vue";
 
-const levelPhysicalActivity = ref([
-  { title: "минимальная активность", value: 1.2 },
-  { title: "слабый уровень активности", value: 1.375 },
-  { title: "умеренный уровень активности", value: 1.55 },
-  { title: "тяжелая или трудоемкая активность", value: 1.7 },
-  { title: "экстремальный уровень", value: 1.9 },
-]);
+const levelPhysicalActivity = ref(levelPhysicalActivityData);
 
 const dataUser = ref({
   age: null,
@@ -58,7 +52,7 @@ const props = defineProps({
 
 const emit = defineEmits(["normCalorie", "comment"]);
 
-const mess = ref("");
+const message = ref("");
 const comment = ref("");
 const normCalorie = ref(null);
 
@@ -73,9 +67,9 @@ function getNormCalorie() {
       dataUser.value.gender === "man" ? partFormula + 5 : partFormula - 161;
     normCalorie.value = partFormula * parseFloat(dataUser.value.activity);
     checkExcessDeficiency();
-    mess.value = "";
+    message.value = "";
   } else {
-    mess.value = "Введите корректные данные";
+    message.value = "Введите корректные данные";
     normCalorie.value = null;
     comment.value = "";
   }
@@ -120,7 +114,7 @@ function verificationData() {
   @include settings.btnStyle();
   background-color: #7cb342;
 }
-.mess {
-  @include settings.mess();
+.message {
+  @include settings.message();
 }
 </style>
