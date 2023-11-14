@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { useLisfFoodsStore } from "@/store/listFoods";
 import { storeToRefs } from "pinia";
 
@@ -66,7 +66,7 @@ const n_proteins = ref("");
 const n_fats = ref("");
 const n_carbs = ref("");
 
-const criteria = ref({
+const criteria = reactive({
   calories: calories(searchMaxValue("calories")),
   proteins: proteins(searchMaxValue("proteins")),
   fats: fats(searchMaxValue("fats")),
@@ -82,32 +82,34 @@ function filtration() {
       (f) =>
         between(
           f.calories,
-          criteria.value.calories[n_calories.value].min,
-          criteria.value.calories[n_calories.value].max
+          criteria.calories[n_calories.value].min,
+          criteria.calories[n_calories.value].max
         ) &&
         between(
           f.proteins,
-          criteria.value.proteins[n_proteins.value].min,
-          criteria.value.proteins[n_proteins.value].max
+          criteria.proteins[n_proteins.value].min,
+          criteria.proteins[n_proteins.value].max
         ) &&
         between(
           f.fats,
-          criteria.value.fats[n_fats.value].min,
-          criteria.value.fats[n_fats.value].max
+          criteria.fats[n_fats.value].min,
+          criteria.fats[n_fats.value].max
         ) &&
         between(
           f.carbs,
-          criteria.value.carbs[n_carbs.value].min,
-          criteria.value.carbs[n_carbs.value].max
+          criteria.carbs[n_carbs.value].min,
+          criteria.carbs[n_carbs.value].max
         )
     );
     message.value = "";
     emit("foodFilter", foodFilter);
   } else message.value = "Выберите необходимый диапазон калорий";
 }
+
 function between(value, min, max) {
   return value >= min && value <= max;
 }
+
 function searchMaxValue(parametr) {
   return foods.value
     .map((item) => item[parametr])

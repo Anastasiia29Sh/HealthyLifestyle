@@ -1,5 +1,9 @@
 <template>
-  <v-app-bar flat absolute class="main-header" density="prominent">
+  <v-app-bar 
+    flat 
+    absolute 
+    class="main-header" 
+    density="prominent">
     <v-app-bar-title class="main-text">ЗОЖ-Учёт</v-app-bar-title>
   </v-app-bar>
   <v-dialog v-model="openCalendar" width="auto">
@@ -100,7 +104,7 @@
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
-let currentDate = ref(new Date());
+const currentDate = ref(new Date());
 if (route.params.date !== "") {
   let masCurrentDate = route.params.date.split(".");
   currentDate.value = new Date(

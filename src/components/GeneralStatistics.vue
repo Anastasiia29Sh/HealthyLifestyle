@@ -69,7 +69,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { useLisfFoodsStore } from "@/store/listFoods";
 import { storeToRefs } from "pinia";
 import { Bar } from "vue-chartjs";
@@ -124,7 +124,7 @@ const masWeek = ref([]);
 const masMonth = ref([]);
 const masYear = ref([]);
 
-const allTotalCPFC = ref({
+const allTotalCPFC = reactive({
   calories: 0,
   proteins: 0,
   fats: 0,
@@ -163,10 +163,10 @@ function getStatistics() {
       if (listTotalCPFCFoodStatistics.value.length !== 0) {
         // считаем общее кол-во кбжу всех "съеденных" продуктов за указанный диапазон дат
         listTotalCPFCFoodStatistics.value.forEach((element) => {
-          allTotalCPFC.value.calories += element.calories;
-          allTotalCPFC.value.proteins += element.proteins;
-          allTotalCPFC.value.fats += element.fats;
-          allTotalCPFC.value.carbs += element.carbs;
+          allTotalCPFC.calories += element.calories;
+          allTotalCPFC.proteins += element.proteins;
+          allTotalCPFC.fats += element.fats;
+          allTotalCPFC.carbs += element.carbs;
         });
         getChartDate();
         message.value = "";
@@ -287,6 +287,7 @@ function getLabelChartDate(criteria) {
     return masYear.value.map((item) => item.end.getFullYear());
   }
 }
+
 // поиск начальной и конечной даты недели
 function getWeekDate(startDate) {
   let startWeek = new Date(
@@ -299,6 +300,7 @@ function getWeekDate(startDate) {
   masWeek.value.push({ start: startWeek, end: endWeek });
   return endWeek;
 }
+
 // поиск начальной и конечной даты месяца
 function getMonthDate(startDate) {
   let firstDay = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
@@ -306,6 +308,7 @@ function getMonthDate(startDate) {
   masMonth.value.push({ start: firstDay, end: lastDay });
   return lastDay;
 }
+
 // поиск начальной и конечной даты года
 function getYearDate(startDate) {
   let firstDay = new Date(startDate.getFullYear(), 0, 1);
@@ -320,6 +323,7 @@ function formatDate(date) {
   let year = date.split("-")[0];
   return new Date(year + ", " + month + ", " + day);
 }
+
 function formatDate2(date) {
   let day = date.getDate();
   let month = ("0" + (date.getMonth() + 1)).slice(-2);

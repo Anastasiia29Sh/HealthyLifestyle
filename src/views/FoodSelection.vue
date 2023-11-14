@@ -86,6 +86,7 @@ let action = "add";
 const titlePanel = ref(sectionDate + " Добавить ");
 const { infaAddedFoodSectionDate, addedFoodSectionDate } =
   storeToRefs(actionsFoodStore);
+
 function addFood(item) {
   infaAddedFoodSectionDate.value = {
     id: item.id,
@@ -95,6 +96,7 @@ function addFood(item) {
   };
   openPalenAdd.value = true;
 }
+
 function getDisabled(id) {
   return addedFoodSectionDate.value.some(
     (item) =>
@@ -106,10 +108,12 @@ function getDisabled(id) {
 
 // фильтрация
 const showFilter = ref(true);
+
 function openFilter() {
   if (allFoods.value.length === 0) showFilter.value = true;
   else showFilter.value = !showFilter.value;
 }
+
 function resFilter(res) {
   allFoods.value = res;
   if (allFoods.value.length === 0) {

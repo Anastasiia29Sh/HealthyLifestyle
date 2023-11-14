@@ -36,6 +36,7 @@ export const useLisfFoodsStore = defineStore('listFoods', () => {
 			});
 		});
 	}
+
 	function getAllFoods(){
 		foods.value = foodsBD.value.concat(JSON.parse(localStorage.getItem("addedNewFood") || "[]"));
 	}
@@ -76,6 +77,7 @@ export const useLisfFoodsStore = defineStore('listFoods', () => {
 			};
 			listCPFCFoodStatistics.push(cpfcFoodDate.value);
 		}
+		
 		// Общее кол-во кбжу всех "съеденных" продуктов в определенный день 
 		const totalCPFCFoodStatistics = listCPFCFoodStatistics.reduce((totalCPFCFoodStatistics, currentValue) => {
 			if (totalCPFCFoodStatistics[currentValue.date]) {

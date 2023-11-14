@@ -117,6 +117,7 @@ const { addedFoodSectionDate, infaAddedFoodSectionDate, idFood } =
 const { deleteFoodSectionDate } = actionsFoodStore;
 // Поиск продуктов конкретного дня и конкретного приема пищи
 const addedFoodSpecificSectionDate = ref([]);
+
 function getListFood() {
   addedFoodSpecificSectionDate.value = addedFoodSectionDate.value.filter(
     (f) => f.section === route.params.section && f.date === route.params.date
@@ -150,6 +151,7 @@ const descriptionFood = ref({
   fats: 0,
   carbs: 0,
 });
+
 function getDescriptionFood(id) {
   let food = foods.value.filter((f) => f.id === id)[0];
   descriptionFood.value = {
@@ -166,6 +168,7 @@ const openPalenEdit = ref(false);
 let updateOpenPalenEdit = (res) => (openPalenEdit.value = res);
 let action = "edit";
 let titlePanel = "Редактировать";
+
 function editFood(item) {
   idFood.value = item.id;
   infaAddedFoodSectionDate.value = {
@@ -180,10 +183,12 @@ function editFood(item) {
 
 // Удаление
 const openPalenDelete = ref(false);
+
 function deleteFood(item) {
   idFood.value = item.id;
   openPalenDelete.value = true;
 }
+
 function okDelete() {
   deleteFoodSectionDate();
   getListFood();

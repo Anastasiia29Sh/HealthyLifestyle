@@ -60,7 +60,7 @@ getAllFoods();
 const tab = ref(null);
 
 const totalCaloriesDay = ref();
-const comment = ref("");
+const comment = ref();
 const normCalorie = ref(null);
 const openCalculatorСalorie = ref(false);
 

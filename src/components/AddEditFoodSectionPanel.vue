@@ -12,7 +12,13 @@
       />
       <div class="actions">
         <v-btn @click="ok()" class="btn-ok">Ок</v-btn>
-        <v-btn variant="text" @click="close()" class="ml-2">Отмена</v-btn>
+        <v-btn 
+          variant="text" 
+          @click="close()" 
+          class="ml-2"
+        >
+          Отмена
+        </v-btn>
       </div>
     </v-container>
   </v-card>
@@ -47,6 +53,7 @@ function ok() {
   weightFood.value = 0;
   close();
 }
+
 function close() {
   emit("openPalenAddEdit", false);
 }

@@ -26,17 +26,20 @@ export const useActionsFoodStore = defineStore('actionsFood', () => {
 		addedFoodSectionDate.value.push(infaAddedFoodSectionDate.value);
 		localStorage.setItem("addedFood", JSON.stringify(addedFoodSectionDate.value));
 	}
+
 	// Редактирование продуктов в конкретный день и конкретный прием пищи
 	function editFoodSectionDate(newWeight){
 		infaAddedFoodSectionDate.value.weight = newWeight;
 		deleteFoodSectionDate();
 		addFoodSectionDate();
 	}
+
 	// Удаление продуктов в конкретный день и конкретный прием пищи
 	function deleteFoodSectionDate(){
 		addedFoodSectionDate.value = addedFoodSectionDate.value.filter((f) => f.id !== idFood.value);
 		localStorage.setItem("addedFood", JSON.stringify(addedFoodSectionDate.value));
 	}
+	
 	// Добавление новых продуктов в базу
 	function addNewFood() {
 		addedNewFood.value.push(infaAddedNewFood.value);

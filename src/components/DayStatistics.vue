@@ -13,7 +13,11 @@
     </v-col>
   </v-row>
   <p class="message">{{ message }}</p>
-  <Pie :options="chartOptions" :data="piaChartData" class="pia-chart mt-2" />
+  <Pie 
+    :options="chartOptions" 
+    :data="piaChartData" 
+    class="pia-chart mt-2" 
+  />
 </template>
 
 <script setup>
@@ -50,13 +54,7 @@ const emit = defineEmits(["totalCaloriesDay", "updateSelectedDate"]);
 
 const message = ref("");
 
-let currentDate = new Date();
-currentDate =
-  currentDate.getFullYear() +
-  "-" +
-  ("0" + (currentDate.getMonth() + 1)).slice(-2) +
-  "-" +
-  ("0" + currentDate.getDate()).slice(-2);
+let currentDate = new Date().toLocaleDateString('en-CA');
 const selectedDate = ref(currentDate);
 
 const piaChartData = ref({ labels: [], datasets: [] });

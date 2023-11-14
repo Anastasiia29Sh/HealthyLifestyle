@@ -18,8 +18,8 @@
     variant="underlined"
   />
   <v-radio-group v-model="dataUser.gender" inline>
-    <v-radio label="Мужчина" value="man"></v-radio>
-    <v-radio label="Женщина" value="woman"></v-radio>
+    <v-radio label="Мужчина" value="man" />
+    <v-radio label="Женщина" value="woman" />
   </v-radio-group>
   <v-select
     label="Степень физической активности"
@@ -28,17 +28,17 @@
     item-title="title"
     item-value="value"
     variant="underlined"
-  ></v-select>
+  />
   <v-btn @click="getNormCalorie()" class="calculate">Рассчитать</v-btn>
   <p class="message mt-2">{{ message }}</p>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, reactive, computed } from "vue";
 
 const levelPhysicalActivity = ref(levelPhysicalActivityData);
 
-const dataUser = ref({
+const dataUser = reactive({
   age: null,
   height: null,
   weight: null,
@@ -60,13 +60,12 @@ const normCalorie = ref(null);
 function getNormCalorie() {
   if (verificationData()) {
     let partFormula =
-      10 * dataUser.value.weight +
-      6.25 * dataUser.value.height -
-      5 * dataUser.value.age;
+      10 * dataUser.weight +
+      6.25 * dataUser.height -
+      5 * dataUser.age;
     partFormula =
-      dataUser.value.gender === "man" ? partFormula + 5 : partFormula - 161;
-    normCalorie.value = partFormula * parseFloat(dataUser.value.activity);
-    checkExcessDeficiency();
+      dataUser.gender === "man" ? partFormula + 5 : partFormula - 161;
+    normCalorie.value = partFormula * parseFloat(dataUser.activity);
     message.value = "";
   } else {
     message.value = "Введите корректные данные";
@@ -74,26 +73,22 @@ function getNormCalorie() {
     comment.value = "";
   }
   emit("normCalorie", normCalorie.value);
-  emit("comment", comment.value);
+  emit("comment", checkExcessDeficiency);
 }
 
 // проверка избытка и недостатка
-function checkExcessDeficiency() {
+const checkExcessDeficiency = computed(() => {
   if (props.totalCaloriesDay > normCalorie.value) {
-    comment.value =
-      "Превышение на " +
-      (props.totalCaloriesDay - normCalorie.value) +
-      " Ккал!!!";
+    return "Превышение на " + (props.totalCaloriesDay - normCalorie.value) + " Ккал!!!";
   } else if (props.totalCaloriesDay < normCalorie.value) {
-    comment.value =
-      "Недостаток " + (normCalorie.value - props.totalCaloriesDay) + " Ккал!!!";
-  } else comment.value = "";
-}
+    return "Недостаток " + (normCalorie.value - props.totalCaloriesDay) + " Ккал!!!";
+  } else return "";
+});
 
 function verificationData() {
-  let age = parseInt(dataUser.value.age);
-  let height = parseFloat(dataUser.value.height);
-  let weight = parseFloat(dataUser.value.weight);
+  let age = parseInt(dataUser.age);
+  let height = parseFloat(dataUser.height);
+  let weight = parseFloat(dataUser.weight);
   if (
     age > 0 &&
     age <= 100 &&

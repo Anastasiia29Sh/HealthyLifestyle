@@ -93,6 +93,7 @@ function filtration() {
     emit("foodFilter", foodFilter);
   }
 }
+
 function searchMaxValue(parametr) {
   return foods.value
     .map((item) => item[parametr])

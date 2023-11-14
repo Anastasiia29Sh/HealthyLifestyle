@@ -51,7 +51,13 @@
       </v-row>
       <div class="actions">
         <v-btn @click="ok()" class="btn-ok"> Ок </v-btn>
-        <v-btn variant="text" @click="close()" class="ml-2"> Отмена </v-btn>
+        <v-btn 
+          variant="text" 
+          @click="close()" 
+          class="ml-2"
+        > 
+          Отмена 
+        </v-btn>
       </div>
       <p class="message mt-2">{{ message }}</p>
     </v-container>
@@ -68,7 +74,7 @@ const actionsFoodStore = useActionsFoodStore();
 const { infaAddedNewFood } = storeToRefs(actionsFoodStore);
 const { addNewFood } = actionsFoodStore;
 
-let message = ref("");
+const message = ref("");
 
 const emit = defineEmits(["openPalenAdd", "rewriteListFood"]);
 
@@ -90,6 +96,7 @@ function ok() {
     message.value = "Введите все данные";
   }
 }
+
 function close() {
   emit("openPalenAdd", false);
 }
